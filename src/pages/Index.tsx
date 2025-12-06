@@ -86,11 +86,15 @@ export default function Index() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary">
-                <Icon name="FileText" className="text-primary-foreground" size={24} />
+              <div className="flex items-center justify-center w-14 h-14 rounded-full border-[3px] border-primary bg-white">
+                <img 
+                  src="https://cdn.poehali.dev/files/a174de34-e656-4c81-8e5d-280a3325bba2.jpg" 
+                  alt="Pro Документы" 
+                  className="w-full h-full rounded-full object-cover"
+                />
               </div>
               <div className="flex flex-col leading-tight">
-                <span className="text-xl font-bold text-foreground">Pro Документы</span>
+                <span className="text-xl font-bold text-primary">Pro Документы</span>
                 <span className="text-[10px] text-muted-foreground font-medium tracking-wider">ЮРИДИЧЕСКИЕ УСЛУГИ</span>
               </div>
             </div>
@@ -356,10 +360,14 @@ export default function Index() {
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary">
-                <Icon name="FileText" className="text-primary-foreground" size={20} />
+              <div className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-primary bg-white">
+                <img 
+                  src="https://cdn.poehali.dev/files/a174de34-e656-4c81-8e5d-280a3325bba2.jpg" 
+                  alt="Pro Документы" 
+                  className="w-full h-full rounded-full object-cover"
+                />
               </div>
-              <span className="font-bold">Pro Документы</span>
+              <span className="font-bold text-primary">Pro Документы</span>
             </div>
             <p className="text-sm text-muted-foreground">
               © 2024 Pro Документы. Все права защищены.
