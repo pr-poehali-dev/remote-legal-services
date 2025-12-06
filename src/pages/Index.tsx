@@ -285,6 +285,61 @@ const allServices = [
   }
 ];
 
+const pricing = [
+  {
+    icon: 'MessageCircle',
+    title: 'Консультация',
+    price: 'Бесплатно',
+    description: 'Первичная консультация по телефону или онлайн',
+    features: [
+      'Анализ ситуации',
+      'Оценка перспектив',
+      'План действий',
+      'Ответы на вопросы'
+    ],
+    highlighted: false
+  },
+  {
+    icon: 'FileText',
+    title: 'Подготовка документов',
+    price: 'от 3 000 ₽',
+    description: 'Составление исков, жалоб, договоров',
+    features: [
+      'Исковые заявления',
+      'Договоры любой сложности',
+      'Жалобы и обжалования',
+      'Юридические заключения'
+    ],
+    highlighted: false
+  },
+  {
+    icon: 'Briefcase',
+    title: 'Представительство в суде',
+    price: 'от 15 000 ₽',
+    description: 'Защита ваших интересов в суде',
+    features: [
+      'Подготовка к заседанию',
+      'Участие в заседаниях',
+      'Подача ходатайств',
+      'Обжалование решений'
+    ],
+    highlighted: true
+  },
+  {
+    icon: 'UserCheck',
+    title: 'Абонентское обслуживание',
+    price: 'от 30 000 ₽/мес',
+    description: 'Комплексное юридическое сопровождение',
+    features: [
+      'Неограниченные консультации',
+      'Подготовка документов',
+      'Представительство интересов',
+      'Личный юрист'
+    ],
+    highlighted: false
+  }
+];
+
 const portfolio = [
   {
     title: 'Корпоративный спор',
@@ -366,7 +421,7 @@ export default function Index() {
               </div>
             </div>
             <div className="hidden md:flex gap-8">
-              {['Главная', 'Услуги', 'О компании', 'Результаты', 'Контакты'].map((item) => (
+              {['Главная', 'Услуги', 'Стоимость', 'О компании', 'Результаты', 'Контакты'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase().replace(' ', '-'))}
@@ -436,7 +491,69 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="о-компании" className="py-20 px-4">
+      <section id="стоимость" className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Стоимость услуг</h2>
+            <p className="text-lg text-muted-foreground">Прозрачные цены на юридические услуги</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {pricing.map((plan, index) => (
+              <Card 
+                key={index}
+                className={`relative border-2 transition-all duration-300 hover:shadow-xl ${
+                  plan.highlighted 
+                    ? 'border-primary shadow-lg scale-105' 
+                    : 'border-border hover:border-primary'
+                }`}
+              >
+                {plan.highlighted && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-bold">
+                      Популярно
+                    </span>
+                  </div>
+                )}
+                <CardContent className="p-6 space-y-6">
+                  <div className="text-center space-y-2">
+                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                      <Icon name={plan.icon} className="text-primary" size={32} />
+                    </div>
+                    <h3 className="text-xl font-bold">{plan.title}</h3>
+                    <div className="text-3xl font-bold text-primary">{plan.price}</div>
+                    <p className="text-sm text-muted-foreground">{plan.description}</p>
+                  </div>
+                  <div className="space-y-3 pt-4 border-t">
+                    {plan.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-start gap-2">
+                        <Icon name="Check" className="text-primary shrink-0 mt-0.5" size={18} />
+                        <span className="text-sm text-muted-foreground">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Button 
+                    className="w-full" 
+                    variant={plan.highlighted ? 'default' : 'outline'}
+                    onClick={() => setIsDialogOpen(true)}
+                  >
+                    Заказать
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <p className="text-muted-foreground mb-4">
+              Точная стоимость определяется после анализа вашей ситуации
+            </p>
+            <Button size="lg" onClick={() => setIsDialogOpen(true)}>
+              Получить расчет стоимости
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section id="о-компании" className="py-20 px-4 bg-muted/30">
         <div className="container mx-auto max-w-6xl">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 animate-fade-in">
@@ -501,7 +618,7 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="результаты" className="py-20 px-4 bg-muted/30">
+      <section id="результаты" className="py-20 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Результаты нашей работы и судебная практика</h2>
