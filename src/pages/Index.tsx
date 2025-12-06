@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -6,36 +6,282 @@ import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
 
-const services = [
+const allServices = [
   {
     icon: 'Scale',
     title: 'Гражданское право',
-    description: 'Защита прав граждан, договорное право, споры о собственности'
+    description: 'Защита прав граждан, договорное право',
+    details: [
+      'Взыскание задолженностей',
+      'Споры о собственности',
+      'Защита чести и достоинства',
+      'Договорное право',
+      'Наследственные споры'
+    ]
   },
   {
     icon: 'Building2',
     title: 'Корпоративное право',
-    description: 'Регистрация бизнеса, корпоративные споры, M&A сделки'
+    description: 'Регистрация бизнеса, корпоративные споры',
+    details: [
+      'Регистрация ООО и АО',
+      'Корпоративные споры',
+      'M&A сделки',
+      'Реорганизация и ликвидация',
+      'Защита прав акционеров'
+    ]
   },
   {
     icon: 'FileText',
     title: 'Налоговое право',
-    description: 'Налоговое планирование, споры с ФНС, налоговые проверки'
+    description: 'Налоговое планирование, споры с ФНС',
+    details: [
+      'Налоговое планирование',
+      'Споры с ФНС',
+      'Обжалование налоговых проверок',
+      'Возврат незаконных доначислений',
+      'Налоговый аудит'
+    ]
   },
   {
     icon: 'Users',
     title: 'Трудовое право',
-    description: 'Трудовые споры, защита прав работников и работодателей'
+    description: 'Трудовые споры, защита прав',
+    details: [
+      'Восстановление на работе',
+      'Взыскание зарплаты',
+      'Оспаривание увольнения',
+      'Защита от дискриминации',
+      'Трудовые договоры'
+    ]
   },
   {
     icon: 'Home',
     title: 'Недвижимость',
-    description: 'Сделки с недвижимостью, оформление прав, жилищные споры'
+    description: 'Сделки с недвижимостью, жилищные споры',
+    details: [
+      'Купля-продажа недвижимости',
+      'Оформление прав собственности',
+      'Жилищные споры',
+      'Признание сделок недействительными',
+      'Выселение и вселение'
+    ]
   },
   {
     icon: 'Shield',
     title: 'Уголовное право',
-    description: 'Защита по уголовным делам, представительство в суде'
+    description: 'Защита по уголовным делам',
+    details: [
+      'Защита в суде',
+      'Обжалование приговоров',
+      'Представительство на следствии',
+      'Защита прав потерпевших',
+      'Амнистия и помилование'
+    ]
+  },
+  {
+    icon: 'Heart',
+    title: 'Семейное право',
+    description: 'Разводы, алименты, раздел имущества',
+    details: [
+      'Расторжение брака',
+      'Раздел совместного имущества',
+      'Взыскание алиментов',
+      'Определение места жительства ребенка',
+      'Брачные договоры'
+    ]
+  },
+  {
+    icon: 'Lightbulb',
+    title: 'Интеллектуальная собственность',
+    description: 'Защита авторских прав, товарные знаки',
+    details: [
+      'Регистрация товарных знаков',
+      'Защита авторских прав',
+      'Патентное право',
+      'Споры о нарушении ИС',
+      'Лицензионные договоры'
+    ]
+  },
+  {
+    icon: 'ShoppingCart',
+    title: 'Защита прав потребителей',
+    description: 'Возврат товаров, компенсации',
+    details: [
+      'Возврат некачественного товара',
+      'Взыскание компенсаций',
+      'Обжалование отказов в ремонте',
+      'Защита от недобросовестных продавцов',
+      'Споры с услугами (туры, ремонт)'
+    ]
+  },
+  {
+    icon: 'Landmark',
+    title: 'Административное право',
+    description: 'Обжалование штрафов, действий властей',
+    details: [
+      'Обжалование штрафов ГИБДД',
+      'Споры с госорганами',
+      'Лишение водительских прав',
+      'Миграционное право',
+      'Лицензирование и разрешения'
+    ]
+  },
+  {
+    icon: 'Briefcase',
+    title: 'Арбитражные споры',
+    description: 'Хозяйственные споры между компаниями',
+    details: [
+      'Взыскание долгов с контрагентов',
+      'Расторжение договоров',
+      'Защита деловой репутации',
+      'Взыскание убытков',
+      'Исполнительное производство'
+    ]
+  },
+  {
+    icon: 'PiggyBank',
+    title: 'Банкротство',
+    description: 'Банкротство физлиц и юрлиц',
+    details: [
+      'Банкротство физических лиц',
+      'Банкротство компаний',
+      'Оспаривание сделок должника',
+      'Включение в реестр кредиторов',
+      'Защита от банкротства'
+    ]
+  },
+  {
+    icon: 'CreditCard',
+    title: 'Кредитные споры',
+    description: 'Споры с банками и коллекторами',
+    details: [
+      'Оспаривание кредитных договоров',
+      'Защита от коллекторов',
+      'Списание кредитных долгов',
+      'Реструктуризация задолженности',
+      'Обжалование действий банков'
+    ]
+  },
+  {
+    icon: 'Car',
+    title: 'Автоюрист',
+    description: 'ДТП, страховые споры',
+    details: [
+      'Взыскание ущерба после ДТП',
+      'Споры со страховыми компаниями',
+      'Оспаривание вины в ДТП',
+      'Защита прав пешеходов',
+      'Возмещение морального вреда'
+    ]
+  },
+  {
+    icon: 'Hospital',
+    title: 'Медицинское право',
+    description: 'Врачебные ошибки, страховые споры',
+    details: [
+      'Возмещение вреда от врачебных ошибок',
+      'Споры с медучреждениями',
+      'Обжалование отказов в лечении',
+      'Защита прав пациентов',
+      'Медицинское страхование'
+    ]
+  },
+  {
+    icon: 'GraduationCap',
+    title: 'Образовательное право',
+    description: 'Споры с учебными заведениями',
+    details: [
+      'Обжалование отчисления',
+      'Возврат оплаты за обучение',
+      'Защита прав учащихся',
+      'Споры о качестве образования',
+      'Лицензирование образовательных учреждений'
+    ]
+  },
+  {
+    icon: 'Globe',
+    title: 'Внешнеэкономическая деятельность',
+    description: 'Международные контракты, таможня',
+    details: [
+      'Внешнеторговые контракты',
+      'Таможенные споры',
+      'Международный арбитраж',
+      'Валютное регулирование',
+      'Защита интересов за рубежом'
+    ]
+  },
+  {
+    icon: 'Leaf',
+    title: 'Экологическое право',
+    description: 'Защита экологии, природопользование',
+    details: [
+      'Экологические правонарушения',
+      'Возмещение экологического ущерба',
+      'Природопользование',
+      'Лицензирование экодеятельности',
+      'Обжалование экоэкспертиз'
+    ]
+  },
+  {
+    icon: 'Wifi',
+    title: 'Информационное право',
+    description: 'Защита персональных данных, киберправо',
+    details: [
+      'Защита персональных данных',
+      'Киберпреступления',
+      'Удаление информации из интернета',
+      'Защита репутации в сети',
+      'Споры о доменных именах'
+    ]
+  },
+  {
+    icon: 'Award',
+    title: 'Спортивное право',
+    description: 'Контракты спортсменов, дисциплинарные дела',
+    details: [
+      'Контракты спортсменов',
+      'Дисциплинарные дела',
+      'Допинговые споры',
+      'Трансферы и агентские договоры',
+      'Споры со спортивными федерациями'
+    ]
+  },
+  {
+    icon: 'Package',
+    title: 'Таможенное право',
+    description: 'Таможенное оформление, споры',
+    details: [
+      'Таможенное оформление',
+      'Обжалование решений таможни',
+      'Возврат таможенных платежей',
+      'Защита от контрабанды',
+      'ВЭД и таможенные режимы'
+    ]
+  },
+  {
+    icon: 'Hammer',
+    title: 'Строительное право',
+    description: 'Договоры подряда, строительные споры',
+    details: [
+      'Договоры подряда',
+      'Споры о качестве строительства',
+      'Долевое строительство',
+      'Градостроительное право',
+      'Самовольное строительство'
+    ]
+  },
+  {
+    icon: 'Truck',
+    title: 'Транспортное право',
+    description: 'Перевозки, логистика',
+    details: [
+      'Договоры перевозки',
+      'Утеря и повреждение груза',
+      'Транспортные лицензии',
+      'Логистические споры',
+      'Защита прав перевозчиков'
+    ]
   }
 ];
 
@@ -67,6 +313,24 @@ export default function Index() {
 
   const [activeSection, setActiveSection] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<typeof allServices[0] | null>(null);
+  const [visibleServices, setVisibleServices] = useState<number[]>([]);
+
+  useEffect(() => {
+    const getRandomServices = () => {
+      const indices = Array.from({ length: allServices.length }, (_, i) => i);
+      const shuffled = indices.sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, 8);
+    };
+
+    setVisibleServices(getRandomServices());
+
+    const interval = setInterval(() => {
+      setVisibleServices(getRandomServices());
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -148,22 +412,26 @@ export default function Index() {
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Наши услуги</h2>
             <p className="text-lg text-muted-foreground">Комплексная правовая поддержка для бизнеса и граждан</p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service, index) => (
-              <Card 
-                key={index} 
-                className="border-2 hover:border-primary transition-all duration-300 hover:shadow-lg animate-scale-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <CardContent className="p-8 space-y-4">
-                  <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Icon name={service.icon} className="text-primary" size={28} />
-                  </div>
-                  <h3 className="text-xl font-bold">{service.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{service.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {visibleServices.map((serviceIndex, index) => {
+              const service = allServices[serviceIndex];
+              return (
+                <Card 
+                  key={serviceIndex} 
+                  className="border-2 hover:border-primary transition-all duration-300 hover:shadow-lg animate-scale-in cursor-pointer"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  onClick={() => setSelectedService(service)}
+                >
+                  <CardContent className="p-6 space-y-3">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Icon name={service.icon} className="text-primary" size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold">{service.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{service.description}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -425,6 +693,53 @@ export default function Index() {
               Отправить заявку
             </Button>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={selectedService !== null} onOpenChange={(open) => !open && setSelectedService(null)}>
+        <DialogContent className="sm:max-w-[600px]">
+          {selectedService && (
+            <>
+              <DialogHeader>
+                <div className="flex items-center gap-4 mb-2">
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Icon name={selectedService.icon} className="text-primary" size={32} />
+                  </div>
+                  <div>
+                    <DialogTitle className="text-2xl">{selectedService.title}</DialogTitle>
+                    <DialogDescription className="mt-1">
+                      {selectedService.description}
+                    </DialogDescription>
+                  </div>
+                </div>
+              </DialogHeader>
+              <div className="space-y-4 mt-4">
+                <h3 className="font-bold text-lg">Что мы делаем:</h3>
+                <ul className="space-y-3">
+                  {selectedService.details.map((detail, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                        <Icon name="Check" className="text-primary" size={16} />
+                      </div>
+                      <span className="text-muted-foreground">{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="pt-4 border-t">
+                  <Button 
+                    size="lg" 
+                    className="w-full" 
+                    onClick={() => {
+                      setSelectedService(null);
+                      setIsDialogOpen(true);
+                    }}
+                  >
+                    Получить консультацию
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
         </DialogContent>
       </Dialog>
 
