@@ -333,7 +333,7 @@ export default function Index() {
                 <Icon name="Phone" className="text-primary" size={28} />
               </div>
               <h3 className="font-bold mb-2">Телефон</h3>
-              <p className="text-muted-foreground">+7 (495) 123-45-67</p>
+              <a href="tel:+79773037030" className="text-muted-foreground hover:text-primary transition-colors">+7 (977) 303-70-30</a>
               <p className="text-sm text-muted-foreground mt-1">Ежедневно 9:00 - 21:00</p>
             </Card>
             <Card className="p-8 text-center border-2">
@@ -341,7 +341,7 @@ export default function Index() {
                 <Icon name="Mail" className="text-primary" size={28} />
               </div>
               <h3 className="font-bold mb-2">Email</h3>
-              <p className="text-muted-foreground">info@urpravo.ru</p>
+              <a href="mailto:pro-doc24@yandex.ru" className="text-muted-foreground hover:text-primary transition-colors break-all">pro-doc24@yandex.ru</a>
               <p className="text-sm text-muted-foreground mt-1">Ответим в течение часа</p>
             </Card>
             <Card className="p-8 text-center border-2">
