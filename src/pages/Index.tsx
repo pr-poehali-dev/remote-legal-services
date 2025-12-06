@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
 
 const services = [
@@ -65,6 +66,7 @@ export default function Index() {
   });
 
   const [activeSection, setActiveSection] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -78,6 +80,7 @@ export default function Index() {
     e.preventDefault();
     alert('Спасибо за обращение! Мы свяжемся с вами в ближайшее время.');
     setFormData({ name: '', phone: '', email: '', message: '' });
+    setIsDialogOpen(false);
   };
 
   return (
@@ -111,7 +114,7 @@ export default function Index() {
                 </button>
               ))}
             </div>
-            <Button onClick={() => scrollToSection('консультация')}>
+            <Button onClick={() => setIsDialogOpen(true)}>
               Консультация
             </Button>
           </div>
@@ -128,7 +131,7 @@ export default function Index() {
               Профессиональная правовая помощь дистанционно. Защитим ваши интересы в любой точке страны.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Button size="lg" className="text-lg px-8" onClick={() => scrollToSection('консультация')}>
+              <Button size="lg" className="text-lg px-8" onClick={() => setIsDialogOpen(true)}>
                 Получить консультацию
               </Button>
               <Button size="lg" variant="outline" className="text-lg px-8" onClick={() => scrollToSection('услуги')}>
@@ -355,6 +358,75 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">Получить консультацию</DialogTitle>
+            <DialogDescription>
+              Заполните форму, и мы свяжемся с вами в ближайшее время
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <label htmlFor="modal-name" className="text-sm font-medium">
+                Имя <span className="text-destructive">*</span>
+              </label>
+              <Input
+                id="modal-name"
+                required
+                placeholder="Ваше имя"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="h-11"
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="modal-phone" className="text-sm font-medium">
+                Телефон <span className="text-destructive">*</span>
+              </label>
+              <Input
+                id="modal-phone"
+                required
+                type="tel"
+                placeholder="+7 (999) 123-45-67"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="h-11"
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="modal-email" className="text-sm font-medium">
+                Email
+              </label>
+              <Input
+                id="modal-email"
+                type="email"
+                placeholder="your@email.com"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="h-11"
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="modal-message" className="text-sm font-medium">
+                Опишите вашу ситуацию <span className="text-destructive">*</span>
+              </label>
+              <Textarea
+                id="modal-message"
+                required
+                placeholder="Расскажите о вашей проблеме или вопросе..."
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                className="min-h-[120px] resize-none"
+              />
+            </div>
+            <Button type="submit" size="lg" className="w-full">
+              Отправить заявку
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       <footer className="py-12 px-4 border-t border-border">
         <div className="container mx-auto max-w-6xl">
