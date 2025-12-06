@@ -102,7 +102,7 @@ export default function Index() {
               </div>
             </div>
             <div className="hidden md:flex gap-8">
-              {['Главная', 'Услуги', 'О компании', 'Портфолио', 'Контакты'].map((item) => (
+              {['Главная', 'Услуги', 'О компании', 'Результаты', 'Контакты'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase().replace(' ', '-'))}
@@ -233,10 +233,10 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="портфолио" className="py-20 px-4 bg-muted/30">
+      <section id="результаты" className="py-20 px-4 bg-muted/30">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Портфолио</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Результаты нашей работы и судебная практика</h2>
             <p className="text-lg text-muted-foreground">Примеры успешно завершенных дел</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
