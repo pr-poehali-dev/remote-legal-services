@@ -85,9 +85,14 @@ export default function Index() {
       <nav className="fixed top-0 w-full bg-background/95 backdrop-blur-sm border-b border-border z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Icon name="Scale" className="text-primary" size={28} />
-              <span className="text-xl font-bold text-foreground">ЮрПраво</span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary">
+                <Icon name="FileText" className="text-primary-foreground" size={24} />
+              </div>
+              <div className="flex flex-col leading-tight">
+                <span className="text-xl font-bold text-foreground">Pro Документы</span>
+                <span className="text-[10px] text-muted-foreground font-medium tracking-wider">ЮРИДИЧЕСКИЕ УСЛУГИ</span>
+              </div>
             </div>
             <div className="hidden md:flex gap-8">
               {['Главная', 'Услуги', 'О компании', 'Портфолио', 'Контакты'].map((item) => (
@@ -350,12 +355,14 @@ export default function Index() {
       <footer className="py-12 px-4 border-t border-border">
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Icon name="Scale" className="text-primary" size={24} />
-              <span className="font-bold">ЮрПраво</span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary">
+                <Icon name="FileText" className="text-primary-foreground" size={20} />
+              </div>
+              <span className="font-bold">Pro Документы</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              © 2024 ЮрПраво. Все права защищены.
+              © 2024 Pro Документы. Все права защищены.
             </p>
           </div>
         </div>
